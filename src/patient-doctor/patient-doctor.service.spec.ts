@@ -1,11 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PatientDoctorService } from './patient-doctor.service';
+import { TypeORMTestingConfig } from '../common/TypeORMTestingConfig';
 
 describe('PatientDoctorService', () => {
   let service: PatientDoctorService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [...TypeORMTestingConfig()],
       providers: [PatientDoctorService],
     }).compile();
 

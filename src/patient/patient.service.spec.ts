@@ -5,6 +5,7 @@ import { PatientEntity } from './patient';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TypeORMTestingConfig } from '../common/TypeORMTestingConfig';
+import { BadRequestException } from '@nestjs/common';
 
 describe('PatientService', () => {
   let service: PatientService;
@@ -45,5 +46,19 @@ describe('PatientService', () => {
     expect(storedPatient.id).toEqual(newPatient.id);
     expect(storedPatient.name).toEqual(newPatient.name);
     expect(storedPatient.gender).toEqual(newPatient.gender);
+  });
+
+  it('Cannot create Patient with short name', async () => {
+    const patient: PatientEntity = {
+      diagnosis: [],
+      doctors: [],
+      gender: faker.person.gender(),
+      name: 'Sh',
+      id: null,
+    };
+
+    await expect(() => service.create(patient)).rejects.toThrow(
+      BadRequestException,
+    );
   });
 });
