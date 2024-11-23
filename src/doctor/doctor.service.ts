@@ -18,9 +18,12 @@ export class DoctorService {
     return await this.doctorRepository.find();
   }
 
-  async findOne(id: number): Promise<DoctorEntity> {
+  async findOne(id: number, withDetail: boolean = true): Promise<DoctorEntity> {
     const medico = this.doctorRepository.findOne({
       where: { id },
+      relations: {
+        patients: withDetail,
+      },
     });
 
     if (!medico) throw new NotFoundException(`Medico with id ${id} not found`);
@@ -41,7 +44,7 @@ export class DoctorService {
   }
 
   async update(id: number, medico: DoctorEntity): Promise<DoctorEntity> {
-    const savedDoctor = await this.findOne(id);
+    const savedDoctor = await this.findOne(id, false);
 
     return await this.doctorRepository.save({ ...savedDoctor, ...medico });
   }

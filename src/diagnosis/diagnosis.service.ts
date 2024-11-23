@@ -18,9 +18,15 @@ export class DiagnosisService {
     return await this.diagnosisRepository.find();
   }
 
-  async findOne(id: number): Promise<DiagnosisEntity> {
+  async findOne(
+    id: number,
+    withDetail: boolean = true,
+  ): Promise<DiagnosisEntity> {
     const savedDiagnosis = this.diagnosisRepository.findOne({
       where: { id },
+      relations: {
+        patients: withDetail,
+      },
     });
 
     if (!savedDiagnosis)
@@ -41,7 +47,7 @@ export class DiagnosisService {
     id: number,
     diagnosis: DiagnosisEntity,
   ): Promise<DiagnosisEntity> {
-    const savedDiagnosis = await this.findOne(id);
+    const savedDiagnosis = await this.findOne(id, false);
 
     return this.diagnosisRepository.save({ ...savedDiagnosis, ...diagnosis });
   }

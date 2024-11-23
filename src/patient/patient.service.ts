@@ -51,7 +51,7 @@ export class PatientService {
   }
 
   async delete(id: number): Promise<void> {
-    const savedPatient = await this.findOne(id, false);
+    const savedPatient = await this.findOne(id);
 
     if (savedPatient.diagnoses.length > 0)
       throw new BadRequestException(
