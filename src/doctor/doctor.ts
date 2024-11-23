@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { PatientEntity } from '../patient/patient';
 
 @Entity()
@@ -16,5 +22,6 @@ export class DoctorEntity {
   phone: string;
 
   @ManyToMany(() => PatientEntity, (patient) => patient.doctors)
+  @JoinTable()
   patients: PatientEntity[];
 }

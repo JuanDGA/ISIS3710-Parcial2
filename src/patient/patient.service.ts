@@ -45,9 +45,18 @@ export class PatientService {
     return await this.patient.save(patient);
   }
 
-  async update(id: number, patient: PatientEntity): Promise<void> {
+  async update(id: number, patient: PatientEntity): Promise<PatientEntity> {
+    if (patient.name.trim().length < 3)
+      throw new BadRequestException(
+        'The name of the patient must have at least 3 characters',
+      );
+
+    // The relations must not be modified from here
+    delete patient.diagnoses;
+    delete patient.doctors;
+
     const savedPatient = await this.findOne(id, false);
-    await this.patient.save({ ...savedPatient, ...patient });
+    return await this.patient.save({ ...savedPatient, ...patient });
   }
 
   async delete(id: number): Promise<void> {
@@ -58,6 +67,6 @@ export class PatientService {
         'Cannot delete a patient with associated diagnosis',
       );
 
-    await this.patient.delete(savedPatient);
+    await this.patient.remove(savedPatient);
   }
 }
