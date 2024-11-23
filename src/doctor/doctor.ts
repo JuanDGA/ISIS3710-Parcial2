@@ -15,6 +15,6 @@ export class DoctorEntity {
   @Column()
   phone: string;
 
-  @ManyToMany(() => PatientEntity)
+  @ManyToMany(() => PatientEntity, (patient) => patient.doctors)
   patients: PatientEntity[];
 }

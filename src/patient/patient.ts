@@ -1,12 +1,7 @@
-import {
-  Column,
-  Entity,
-  ManyToMany,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { DoctorEntity } from '../doctor/doctor';
 import { DiagnosisEntity } from '../diagnosis/diagnosis';
+import { JoinTable } from 'typeorm/browser';
 
 @Entity()
 export class PatientEntity {
@@ -19,9 +14,11 @@ export class PatientEntity {
   @Column()
   gender: string;
 
-  @ManyToMany(() => DoctorEntity)
+  @ManyToMany(() => DoctorEntity, (doctor) => doctor.patients)
+  @JoinTable()
   doctors: DoctorEntity[];
 
-  @ManyToMany(() => DiagnosisEntity)
-  diagnosis: DiagnosisEntity[];
+  @ManyToMany(() => DiagnosisEntity, (diagnosis) => diagnosis.patients)
+  @JoinTable()
+  diagnoses: DiagnosisEntity[];
 }

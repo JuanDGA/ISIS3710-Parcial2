@@ -29,7 +29,7 @@ describe('PatientService', () => {
 
   it('Patient must be saved correctly', async () => {
     const patient: PatientEntity = {
-      diagnosis: [],
+      diagnoses: [],
       doctors: [],
       gender: faker.person.gender(),
       name: faker.person.fullName(),
@@ -50,7 +50,7 @@ describe('PatientService', () => {
 
   it('Cannot create Patient with short name', async () => {
     const patient: PatientEntity = {
-      diagnosis: [],
+      diagnoses: [],
       doctors: [],
       gender: faker.person.gender(),
       name: 'Sh',

@@ -12,6 +12,6 @@ export class DiagnosisEntity {
   @Column()
   descripcion: string;
 
-  @ManyToMany(() => PatientEntity)
+  @ManyToMany(() => PatientEntity, (patient) => patient.diagnoses)
   patients: PatientEntity[];
 }

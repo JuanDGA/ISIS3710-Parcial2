@@ -18,9 +18,16 @@ export class PatientService {
     return await this.patient.find();
   }
 
-  async findOne(id: number): Promise<PatientEntity> {
+  async findOne(
+    id: number,
+    withDetail: boolean = true,
+  ): Promise<PatientEntity> {
     const savedPatient = await this.patient.findOne({
       where: { id },
+      relations: {
+        doctors: withDetail,
+        diagnoses: withDetail,
+      },
     });
 
     if (!savedPatient)
@@ -39,14 +46,14 @@ export class PatientService {
   }
 
   async update(id: number, patient: PatientEntity): Promise<void> {
-    const savedPatient = await this.findOne(id);
+    const savedPatient = await this.findOne(id, false);
     await this.patient.save({ ...savedPatient, ...patient });
   }
 
   async delete(id: number): Promise<void> {
-    const savedPatient = await this.findOne(id);
+    const savedPatient = await this.findOne(id, false);
 
-    if (savedPatient.diagnosis.length > 0)
+    if (savedPatient.diagnoses.length > 0)
       throw new BadRequestException(
         'Cannot delete a patient with associated diagnosis',
       );
