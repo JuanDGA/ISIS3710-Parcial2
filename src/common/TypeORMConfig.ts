@@ -3,7 +3,7 @@ import { DiagnosisEntity } from '../diagnosis/diagnosis';
 import { DoctorEntity } from '../doctor/doctor';
 import { PatientEntity } from '../patient/patient';
 
-export const TypeORMTestingConfig = () => [
+export const TypeORMConfig = () => [
   TypeOrmModule.forRoot({
     type: 'sqlite',
     database: ':memory:',

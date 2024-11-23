@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { PatientEntity } from './patient';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { TypeORMTestingConfig } from '../common/TypeORMTestingConfig';
+import { TypeORMConfig } from '../common/TypeORMConfig';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import * as assert from 'node:assert';
 
@@ -26,7 +26,7 @@ describe('PatientService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [...TypeORMTestingConfig()],
+      imports: [...TypeORMConfig()],
       providers: [PatientService],
     }).compile();
 
