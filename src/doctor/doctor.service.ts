@@ -56,6 +56,6 @@ export class DoctorService {
       throw new BadRequestException(
         'Cannot delete a doctor with associated patients',
       );
-    await this.doctorRepository.delete(savedDoctor.id);
+    await this.doctorRepository.remove(savedDoctor);
   }
 }

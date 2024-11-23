@@ -54,6 +54,6 @@ export class DiagnosisService {
 
   async delete(id: number): Promise<void> {
     const savedDiagnosis = await this.findOne(id);
-    await this.diagnosisRepository.delete(savedDiagnosis);
+    await this.diagnosisRepository.remove(savedDiagnosis);
   }
 }
