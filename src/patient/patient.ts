@@ -1,9 +1,9 @@
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
-  JoinTable,
 } from 'typeorm';
 import { DoctorEntity } from '../doctor/doctor';
 import { DiagnosisEntity } from '../diagnosis/diagnosis';

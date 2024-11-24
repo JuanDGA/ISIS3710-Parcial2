@@ -16,6 +16,7 @@ export class PatientDoctorService {
     @InjectRepository(DoctorEntity)
     private readonly doctorRepository: Repository<DoctorEntity>,
   ) {}
+
   async addDoctorToPatient(
     patientId: number,
     doctorId: number,
