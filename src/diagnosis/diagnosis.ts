@@ -7,10 +7,10 @@ export class DiagnosisEntity {
   id: number;
 
   @Column()
-  nombre: string;
+  name: string;
 
   @Column()
-  descripcion: string;
+  description: string;
 
   @ManyToMany(() => PatientEntity, (patient) => patient.diagnoses)
   patients: PatientEntity[];

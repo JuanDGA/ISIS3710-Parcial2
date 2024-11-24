@@ -36,7 +36,7 @@ export class DiagnosisService {
   }
 
   async create(diagnosis: DiagnosisEntity): Promise<DiagnosisEntity> {
-    if (diagnosis.descripcion.trim().length > 200)
+    if (diagnosis.description.trim().length > 200)
       throw new BadRequestException(
         'The description maximum length is 200 characters.',
       );
@@ -47,6 +47,13 @@ export class DiagnosisService {
     id: number,
     diagnosis: DiagnosisEntity,
   ): Promise<DiagnosisEntity> {
+    if (
+      diagnosis.description != undefined &&
+      diagnosis.description.trim().length > 200
+    )
+      throw new BadRequestException(
+        'The description maximum length is 200 characters.',
+      );
     const savedDiagnosis = await this.findOne(id, false);
 
     return this.diagnosisRepository.save({ ...savedDiagnosis, ...diagnosis });
