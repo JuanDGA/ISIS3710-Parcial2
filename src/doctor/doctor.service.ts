@@ -43,10 +43,18 @@ export class DoctorService {
     return await this.doctorRepository.save(doctor);
   }
 
-  async update(id: number, medico: DoctorEntity): Promise<DoctorEntity> {
+  async update(id: number, doctor: DoctorEntity): Promise<DoctorEntity> {
     const savedDoctor = await this.findOne(id, false);
 
-    return await this.doctorRepository.save({ ...savedDoctor, ...medico });
+    if (doctor.name != undefined && doctor.name.trim().length == 0)
+      throw new BadRequestException('The name of the doctor cannot be empty');
+
+    if (doctor.speciality != undefined && doctor.speciality.trim().length == 0)
+      throw new BadRequestException(
+        'The speciality of the doctor cannot be empty',
+      );
+
+    return await this.doctorRepository.save({ ...savedDoctor, ...doctor });
   }
 
   async delete(id: number): Promise<void> {

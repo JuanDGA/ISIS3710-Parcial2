@@ -6,7 +6,6 @@ import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { TypeORMConfig } from '../common/TypeORMConfig';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import * as assert from 'node:assert';
 
 const generateRandomPatient = (): PatientEntity => {
   return {
@@ -144,7 +143,7 @@ describe('PatientService', () => {
       );
     });
 
-    it('Should throw not found exception when trying to update an non-existent patient', async () => {
+    it('Should throw NotFoundException when trying to update an non-existent patient', async () => {
       const patient = { ...randomPatients[0], name: 'Updated' };
 
       await expect(() => service.update(-1, patient)).rejects.toThrow(
