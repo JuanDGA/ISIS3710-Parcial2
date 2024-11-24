@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { DiagnosisService } from './diagnosis.service';
 import { DiagnosisEntity } from './diagnosis';
+import { DiagnosisDto, DiagnosisUpdateDto } from './diagnosis.dto';
+import { plainToInstance } from 'class-transformer';
 
 @Controller('diagnoses')
 export class DiagnosisController {
@@ -28,16 +30,21 @@ export class DiagnosisController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() patient: DiagnosisEntity): Promise<DiagnosisEntity> {
-    return await this.diagnosisService.create(patient);
+  async create(@Body() diagnosis: DiagnosisDto): Promise<DiagnosisEntity> {
+    return await this.diagnosisService.create(
+      plainToInstance(DiagnosisEntity, diagnosis),
+    );
   }
 
   @Put(':id')
   async update(
     @Param('id') id: number,
-    @Body() patient: DiagnosisEntity,
-  ): Promise<DiagnosisEntity> {
-    return await this.diagnosisService.update(id, patient);
+    @Body() diagnosis: DiagnosisUpdateDto,
+  ): Promise<DiagnosisDto> {
+    return await this.diagnosisService.update(
+      id,
+      plainToInstance(DiagnosisEntity, diagnosis),
+    );
   }
 
   @Delete(':id')
