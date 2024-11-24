@@ -1,0 +1,1431 @@
+{
+	"info": {
+		"_postman_id": "83c8be5c-019d-43d8-a4a6-befd90d4e51c",
+		"name": "Parcial2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16411335"
+	},
+	"item": [
+		{
+			"name": "Patients",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"pm.globals.set(\"patient_id\", data.id);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan\",\n    \"gender\": \"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"",
+									"pm.test(\"Error with status code 400\", function () {",
+									"   pm.response.to.have.status(400);",
+									"   pm.expect(data.error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"JD\",\n    \"gender\": \"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json();",
+									"",
+									"pm.test(\"Correct amount of patients\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(data.length).to.be.eq(1);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"The received patient is the expected one\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().id).to.be.eq(pm.globals.get(\"patient_id\"))",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json()",
+									"",
+									"pm.test(\"The patient is updated correctly\", () => {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(data.name).to.be.eq(\"Juan David\")",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan David\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status is 400\", () => {",
+									"    pm.response.to.have.status(400);",
+									"    pm.expect(pm.response.json()).not.to.be.undefined",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"JD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find non-existent patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete non-existent patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update non-existent patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan David\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Doctors",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"pm.globals.set(\"doctor_id\", data.id);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan\",\n    \"speciality\": \"Eye care\",\n    \"phone\": \"+57 3332221100\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"",
+									"pm.test(\"Error with status code 400\", function () {",
+									"   pm.response.to.have.status(400);",
+									"   pm.expect(data.error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\",\n    \"speciality\": \"Eye care\",\n    \"phone\": \"+57 3332221100\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json();",
+									"",
+									"pm.test(\"Correct amount of doctors\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(data.length).to.be.eq(1);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"The received doctor is the expected one\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().id).to.be.eq(pm.globals.get(\"doctor_id\"))",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json()",
+									"",
+									"pm.test(\"The doctor is updated correctly\", () => {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(data.speciality).to.be.eq(\"Self care\")",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"speciality\": \"Self care\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 400\", () => {",
+									"    pm.response.to.have.status(400);",
+									"    pm.expect(pm.response.json()).not.to.be.undefined",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find non-existent doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete non-existent doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update non-existent doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan David\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient-Doctor",
+			"item": [
+				{
+					"name": "Add Doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const doctorId = pm.response.json().id",
+									"",
+									"pm.globals.set(\"doctor_id\", doctorId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan\",\n    \"speciality\": \"Self care\",\n    \"phone\": \"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/doctors",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const patientId = pm.response.json().id",
+									"",
+									"pm.globals.set(\"patient_id\", patientId);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan\",\n    \"gender\": \"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/patients",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add doctor to patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"The status code is 204\", () => {",
+									"    pm.response.to.have.status(204)",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}",
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patient has doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json()",
+									"",
+									"pm.test(\"The patient has the added doctor\", () => {",
+									"    pm.expect(data.doctors.length).to.be.eq(1)",
+									"    pm.expect(data.doctors[0].id).to.be.eq(pm.globals.get(\"doctor_id\"))",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/patients/{{patient_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"patients",
+								"{{patient_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Doctor has patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json()",
+									"",
+									"pm.test(\"The doctor has the added patient\", () => {",
+									"    pm.expect(data.patients.length).to.be.eq(1)",
+									"    pm.expect(data.patients[0].id).to.be.eq(pm.globals.get(\"patient_id\"))",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/doctors/{{doctor_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"{{doctor_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Diagnosis",
+			"item": [
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"pm.globals.set(\"diagnosis_id\", data.id);",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"   pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Influenza\",\n  \"description\": \"A contagious respiratory illness caused by influenza viruses, leading to fever, cough, body aches, and fatigue.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/diagnoses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"",
+									"pm.test(\"Error with status code 400\", function () {",
+									"   pm.response.to.have.status(400);",
+									"   pm.expect(data.error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Diabetes Mellitus\",\n  \"description\": \"A chronic condition characterized by elevated blood sugar levels due to insufficient insulin production or the body's inability to use insulin effectively. It can lead to serious health complications, including cardiovascular disease, nerve damage, kidney failure, and vision problems. Diabetes is typically categorized into Type 1 (autoimmune destruction of insulin-producing cells), Type 2 (insulin resistance), and gestational diabetes (occurring during pregnancy). Management involves monitoring blood sugar, a healthy diet, regular physical activity, and, in some cases, medication or insulin therapy.\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/diagnoses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json();",
+									"",
+									"pm.test(\"Correct amount of diagnoses\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(data.length).to.be.eq(1);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/diagnoses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findOne",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"The received diagnosis is the expected one\", () => {",
+									"    pm.response.to.have.status(200);",
+									"    pm.expect(pm.response.json().id).to.be.eq(pm.globals.get(\"diagnosis_id\"))",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const data = pm.response.json()",
+									"",
+									"pm.test(\"The diagnosis is updated correctly\", () => {",
+									"    pm.response.to.have.status(200)",
+									"    pm.expect(data.name).to.be.eq(\"Updated\")",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invalid update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 400\", () => {",
+									"    pm.response.to.have.status(400);",
+									"    pm.expect(pm.response.json()).not.to.be.undefined",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"A chronic condition characterized by elevated blood sugar levels due to insufficient insulin production or the body's inability to use insulin effectively. It can lead to serious health complications, including cardiovascular disease, nerve damage, kidney failure, and vision problems. Diabetes is typically categorized into Type 1 (autoimmune destruction of insulin-producing cells), Type 2 (insulin resistance), and gestational diabetes (occurring during pregnancy). Management involves monitoring blood sugar, a healthy diet, regular physical activity, and, in some cases, medication or insulin therapy.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 204\", () => {",
+									"    pm.response.to.have.status(204);",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find non-existent diagnosis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete non-existent diagnosis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update non-existent diagnosis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status is 404\", () => {",
+									"    pm.response.to.have.status(404)",
+									"    pm.expect(pm.response.json().error).not.to.be.undefined;",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Juan David\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/diagnoses/{{diagnosis_id}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"diagnoses",
+								"{{diagnosis_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
