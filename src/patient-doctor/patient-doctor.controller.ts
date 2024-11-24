@@ -1,11 +1,19 @@
-import { Controller, Param, Put } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PatientDoctorService } from './patient-doctor.service';
 
 @Controller('patients')
 export class PatientDoctorController {
   constructor(private readonly patientDoctorService: PatientDoctorService) {}
 
-  @Put(':patientId/doctors/:doctorId')
+  @Post(':patientId/doctors/:doctorId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async addDoctorToPatient(
     @Param('patientId') patientId: number,
     @Param('doctorId') doctorId: number,
