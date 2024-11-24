@@ -22,6 +22,5 @@ export class DoctorEntity {
   phone: string;
 
   @ManyToMany(() => PatientEntity, (patient) => patient.doctors)
-  @JoinTable()
   patients: PatientEntity[];
 }

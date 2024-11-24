@@ -7,7 +7,7 @@ import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { DoctorService } from './doctor.service';
 import { DoctorEntity } from './doctor';
 
-const generateRandomDoctor = (): DoctorEntity => {
+export const generateRandomDoctor = (): DoctorEntity => {
   return {
     patients: [],
     name: faker.person.fullName(),

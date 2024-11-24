@@ -7,7 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { TypeORMConfig } from '../common/TypeORMConfig';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
-const generateRandomPatient = (): PatientEntity => {
+export const generateRandomPatient = (): PatientEntity => {
   return {
     diagnoses: [],
     doctors: [],

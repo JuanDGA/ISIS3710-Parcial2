@@ -16,13 +16,13 @@ export class PatientDoctorService {
     @InjectRepository(DoctorEntity)
     private readonly doctorRepository: Repository<DoctorEntity>,
   ) {}
-
   async addDoctorToPatient(
     patientId: number,
     doctorId: number,
   ): Promise<PatientEntity> {
     const savedPatient = await this.patientRepository.findOne({
       where: { id: patientId },
+      relations: { doctors: true },
     });
 
     if (!savedPatient)
@@ -35,6 +35,7 @@ export class PatientDoctorService {
 
     const savedDoctor = await this.doctorRepository.findOne({
       where: { id: doctorId },
+      relations: { patients: true },
     });
 
     if (!savedDoctor)

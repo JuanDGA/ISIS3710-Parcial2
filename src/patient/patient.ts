@@ -20,6 +20,7 @@ export class PatientEntity {
   gender: string;
 
   @ManyToMany(() => DoctorEntity, (doctor) => doctor.patients)
+  @JoinTable()
   doctors: DoctorEntity[];
 
   @ManyToMany(() => DiagnosisEntity, (diagnosis) => diagnosis.patients)
