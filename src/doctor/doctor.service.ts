@@ -19,7 +19,7 @@ export class DoctorService {
   }
 
   async findOne(id: number, withDetail: boolean = true): Promise<DoctorEntity> {
-    const medico = this.doctorRepository.findOne({
+    const medico = await this.doctorRepository.findOne({
       where: { id },
       relations: {
         patients: withDetail,

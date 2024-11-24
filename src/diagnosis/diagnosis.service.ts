@@ -22,7 +22,7 @@ export class DiagnosisService {
     id: number,
     withDetail: boolean = true,
   ): Promise<DiagnosisEntity> {
-    const savedDiagnosis = this.diagnosisRepository.findOne({
+    const savedDiagnosis = await this.diagnosisRepository.findOne({
       where: { id },
       relations: {
         patients: withDetail,
